@@ -6,7 +6,16 @@ from vrpy import VehicleRoutingProblem
 from ortools.constraint_solver import routing_enums_pb2
 from ortools.constraint_solver import pywrapcp
 
-DISTANCES = read_files.D[100]
+distances = read_files.D[100]
+requests = read_files.pickup_delivery
+
+request_matrix = read_files.R
+demand = [0] * len(read_files.T)
+quantities = request_matrix[:, 6]
+result = {node: quantities[request_matrix[:, 1] == node].sum() for node in np.unique(request_matrix[:, 1])}
+
+for k,v in result.items():
+    demand[k] = v
 
 """Simple Vehicles Routing Problem (VRP).
 
@@ -21,10 +30,10 @@ DISTANCES = read_files.D[100]
 def create_data_model():
     """Stores the data for the problem."""
     data = {}
-    data['distance_matrix'] = DISTANCES
-    data['demands'] = [0, 1, 1, 2, 4, 8, 8, 1, 2, 1, 2, 4, 4, 8, 8]
-    data['vehicle_capacities'] = [15, 15, 15, 15]
-    data['num_vehicles'] = 4
+    data['distance_matrix'] = distances
+    data['demands'] = demand
+    data['vehicle_capacities'] = [80, 20, 20, 20, 20, 20, 20, 20]
+    data['num_vehicles'] = 8
     data['depot'] = 0
     return data
 
@@ -119,3 +128,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
