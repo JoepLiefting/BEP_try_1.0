@@ -10,5 +10,6 @@ result = {node: quantities[request_matrix[:, 1] == node].sum() for node in np.un
 for k,v in result.items():
     demand[k] = v
 
-
-
+print(request_matrix)
+print(result)
+print(demand)
