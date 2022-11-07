@@ -1,6 +1,5 @@
 import read_files
 import numpy as np
-from collections import Counter
 
 request_matrix = read_files.R
 demand = [0] * len(read_files.T)
